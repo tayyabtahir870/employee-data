@@ -30,14 +30,14 @@ const AddRecord = () => {
     e.preventDefault();
 
     // Create an object with the employee data
-    const employee = {
-      id: employeeId,
-      employee_name: name,
-      employee_salary: salary,
-      employee_age: age,
-
-      profile_image: "",
-    };
+// Create an object with the employee data
+const employee = {
+  id: parseInt(employeeId), // Convert to number
+  employee_name: name,
+  employee_salary: parseFloat(salary), // Convert to number
+  employee_age: parseInt(age), // Convert to number
+  profile_image: "",
+};
 
     // Retrieve existing data from localStorage
     const existingData = JSON.parse(storedData) || [];
