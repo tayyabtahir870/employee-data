@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const EditRecord = () => {
   const { id } = useParams();
@@ -7,6 +7,8 @@ const EditRecord = () => {
   const [name, setName] = useState("");
   const [salary, setSalary] = useState("");
   const [age, setAge] = useState("");
+  const [empId, setEmpId] = useState("");
+  const navigate=useNavigate("");
 
 
   useEffect(() => {
@@ -19,6 +21,7 @@ const EditRecord = () => {
       setName(selectedEmployee.employee_name);
       setSalary(selectedEmployee.employee_salary);
       setAge(selectedEmployee.employee_age);
+      setEmpId(selectedEmployee.id);
     }
   }, [id]);
 
@@ -26,14 +29,15 @@ const EditRecord = () => {
     e.preventDefault();
     const updatedEmployeeData = JSON.parse(localStorage.getItem("employeeData")).map((item) =>
       item.id === parseInt(id, 10)
-        ? { ...item, employee_name: name, employee_salary: salary, employee_age: age }
+        ? { ...item, employee_name: name, employee_salary: salary, employee_age: age ,id: empId }
         : item
+       
     );
 
     localStorage.setItem("employeeData", JSON.stringify(updatedEmployeeData));
-    // Use the `navigate` function from `react-router-dom` to navigate programmatically
-    // This is the equivalent of window.location.href = "/employeerecord" in v5
-    // Note: Make sure to import `useNavigate` at the beginning of your file
+ 
+
+    navigate("/");
     
   };
 
@@ -51,6 +55,13 @@ const EditRecord = () => {
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    required
+                  />
+                  <label htmlFor="name">Id:</label>
+                  <input
+                    type="text"
+                    value={empId}
+                    onChange={(e) => setEmpId(e.target.value)}
                     required
                   />
                   <label htmlFor="salary">Salary:</label>

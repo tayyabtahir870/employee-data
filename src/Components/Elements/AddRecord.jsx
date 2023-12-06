@@ -1,15 +1,16 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AddRecord = () => {
-  // Step 1: Set up state variables
+
   const [name, setName] = useState("");
   const [salary, setSalary] = useState("");
   const [age, setAge] = useState("");
   const [employeeId, setEmployeeId] = useState("");
+  const navigate = useNavigate("");
 
   const storedData = localStorage.getItem("employeeData");
 
-  // Step 2: Attach event handlers
   const handleNameChange = (e) => {
     setName(e.target.value);
   };
@@ -25,34 +26,34 @@ const AddRecord = () => {
     setEmployeeId(e.target.value);
   };
 
-  // Step 3: Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Create an object with the employee data
-// Create an object with the employee data
+
 const employee = {
-  id: parseInt(employeeId), // Convert to number
+  id: parseInt(employeeId), 
   employee_name: name,
-  employee_salary: parseFloat(salary), // Convert to number
-  employee_age: parseInt(age), // Convert to number
+  employee_salary: parseFloat(salary), 
+  employee_age: parseInt(age), 
   profile_image: "",
 };
 
-    // Retrieve existing data from localStorage
+   
     const existingData = JSON.parse(storedData) || [];
 
-    // Append the new employee data
+
     const newData = [...existingData, employee];
 
-    // Store the updated data in localStorage
+   
     localStorage.setItem("employeeData", JSON.stringify(newData));
 
-    // Clear the form fields after submission
+
     setName("");
     setSalary("");
     setAge("");
     setEmployeeId("");
+    
+    navigate("/");
   };
 
   return (

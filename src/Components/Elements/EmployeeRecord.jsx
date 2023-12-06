@@ -11,43 +11,51 @@ import {
 } from "reactstrap";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const EmployeeRecord = () => {
   const [employeeData, setEmployeeData] = useState([]);
   const [modal, setModal] = useState(false);
   const toggleModal = () => setModal(!modal);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [typeDropdown, setTypeDropdown] = useState({});
-  const [loading, setLoading] = useState(true); // New loading state
+  const [loading, setLoading] = useState(true); 
 
   const handleDelete = (employee) => {
-    // Perform delete logic here
-
-    // For example, you can filter out the selected employee and update the state
+   
     const updatedData = employeeData.filter((item) => item.id !== employee.id);
     setEmployeeData(updatedData);
 
-    // Update local storage
     localStorage.setItem("employeeData", JSON.stringify(updatedData));
 
-    // Close the modal
     toggleModal();
+
+    toast.success(`${employee.employee_name} deleted successfully!`, {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+    });
   };
 
   useEffect(() => {
-    // Check if data is already present in local storage
+
     const storedData = localStorage.getItem("employeeData");
 
     if (storedData) {
-      // If data is present, use it directly
+    
       setEmployeeData(JSON.parse(storedData));
-      setLoading(false); // Data loaded, set loading to false
+      setLoading(false);
     } else {
-      // If data is not present, make API call and store the data
+    
       axios
         .get("https://dummy.restapiexample.com/api/v1/employees")
         .then((res) => {
           const data = res.data.data;
-          // Save data to local storage
+         
           localStorage.setItem("employeeData", JSON.stringify(data));
           setEmployeeData(data);
         })
@@ -55,10 +63,10 @@ const EmployeeRecord = () => {
           alert(err);
         })
         .finally(() => {
-          setLoading(false); // API call completed, set loading to false
+          setLoading(false); 
         });
     }
-  }, []); // Empty dependency array ensures the effect runs only once, similar to componentDidMount
+  }, []); 
 
   return (
     <div style={{ backgroundColor: "#F2F2F2" }}>
@@ -67,10 +75,10 @@ const EmployeeRecord = () => {
           <div className="col-md-8 card my-3">
             <>
               {loading ? (
-                // Render loader while data is being fetched
+
                 <div className="loader text-center mt-5 "></div>
               ) : (
-                // Render table once data is loaded
+              
                 <table className="table table-striped">
                   <thead>
                     <tr>
@@ -117,6 +125,7 @@ const EmployeeRecord = () => {
                                 >
                                   Delete
                                 </button>
+                                <ToastContainer />
                               </div>
                             </div>
                             <div className="d-flex justify-content-between my-3">

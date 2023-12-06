@@ -1,6 +1,7 @@
 import "./App.css";
 import EmployeeRecord from "./Components/Elements/EmployeeRecord";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle";
 import Header from "./Components/Layouts/Header";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AddRecord from "./Components/Elements/AddRecord";
